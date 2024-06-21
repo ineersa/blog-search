@@ -1,0 +1,12 @@
+# Test your FastAPI endpoints
+
+GET http://127.0.0.1:3335/
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:3335/search?query="test"
+Accept: application/json
+
+###
+
