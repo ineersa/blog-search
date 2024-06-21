@@ -5,7 +5,7 @@ from components.reader.BlogPostsReader import BlogPostsReader
 from app.settings import SettingsLocal
 from components.reader.DiskDumpReader import DiskDumpReader
 
-logger = get_logger("cmd/1_read")
+logger = get_logger("commands/1_read")
 
 def run():
     blog_posts_reader = BlogPostsReader()
@@ -23,7 +23,7 @@ def run():
             documents[id].refresh(document)
 
     logger.info("Dumping to drive")
-    joblib.dump(new_documents, SettingsLocal.DOCUMENTS_DUMP_FILE)
+    joblib.dump(new_documents, SettingsLocal.POST_DOCUMENTS_DUMP_FILE)
     logger.info("Finished")
 
 

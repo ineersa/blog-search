@@ -1,6 +1,3 @@
-from components.chunk import Chunk
-from langchain_core.documents import Document as LangchainDocument
-
 class PostDocument:
     def __init__(
             self,
@@ -15,7 +12,7 @@ class PostDocument:
         self.content = content
         self.title_embedding = False
         self.short_description_embedding = False
-        self.chunks: list[Chunk] = []
+        self.content_embedding = False
 
     def refresh(self, new_doc: 'PostDocument'):
         if new_doc.title != self.title:
@@ -26,23 +23,4 @@ class PostDocument:
             self.short_description_embedding = False
         if new_doc.content != self.content:
             self.content = new_doc.content
-            self.chunks = []
-
-    def to_langchain_documents(self) -> list[LangchainDocument]:
-        langchain_documents = [LangchainDocument(
-            page_content=self.title,
-            metadata={"id": self.doc_id, "source": "title"},
-        ), LangchainDocument(
-            page_content=self.short_description,
-            metadata={"id": self.doc_id, "source": "short_description"},
-        )]
-
-        for chunk in self.chunks:
-            langchain_documents.append(
-                LangchainDocument(
-                    page_content=chunk.text,
-                    metadata={"id": self.doc_id, "source": "chunk", "chunk_id": chunk.chunk_id},
-                )
-            )
-
-        return langchain_documents
+            self.content_embedding = False

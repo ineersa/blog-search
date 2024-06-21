@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     DATA_DIR: DirectoryPath = DirectoryPath(DATA_DIR)
     ROOT_DIR: DirectoryPath = DirectoryPath(ROOT_DIR)
+    POST_DOCUMENTS_DUMP_FILE: str = os.path.join(DATA_DIR, 'post_documents.dump.gz')
     DOCUMENTS_DUMP_FILE: str = os.path.join(DATA_DIR, 'documents.dump.gz')
     TRANSFORMERS_MODEL: str = "all-MiniLM-L6-v2"
 

@@ -1,8 +1,7 @@
-from components.chunk import Chunk
 from components.postdocument import PostDocument
 from app.logger import get_logger
 from typing import Dict
-
+from langchain_core.documents import Document as LangchainDocument
 
 class Component:
 
@@ -34,5 +33,13 @@ class Splitter(Component):
     def __init__(self):
         super().__init__()
 
-    def split(self, text: str) -> list[Chunk]:
+    def split(self, text: str) -> list[LangchainDocument]:
+        raise NotImplementedError("split method must be implemented by a subclass.")
+
+class Loader(Component):
+
+    def __init__(self):
+        super().__init__()
+
+    def load(self) -> list[LangchainDocument]:
         raise NotImplementedError("split method must be implemented by a subclass.")

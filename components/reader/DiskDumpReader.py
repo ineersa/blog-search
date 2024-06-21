@@ -12,11 +12,11 @@ class DiskDumpReader(Reader):
         super().__init__()
 
     def read(self) -> Dict[int, PostDocument]:
-        self.logger.info("Reading dumped file {}".format(SettingsLocal.DOCUMENTS_DUMP_FILE))
+        self.logger.info("Reading dumped file {}".format(SettingsLocal.POST_DOCUMENTS_DUMP_FILE))
 
-        if not os.path.exists(SettingsLocal.DOCUMENTS_DUMP_FILE):
+        if not os.path.exists(SettingsLocal.POST_DOCUMENTS_DUMP_FILE):
             return {}
 
-        documents = joblib.load(SettingsLocal.DOCUMENTS_DUMP_FILE)
+        documents = joblib.load(SettingsLocal.POST_DOCUMENTS_DUMP_FILE)
 
         return documents
