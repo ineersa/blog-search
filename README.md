@@ -27,5 +27,28 @@ For convenience, we store intermediate results in files using joblib.
  - `SentenceSplitter` wrapper on `SentenceTransformersTokenTextSplitter` to make it compatible with interface and easy usage
 
 ### Embedders
+I'm using `sentence-transformers` library with `all-MiniLM-L6-v2` model because it's small and fast.
+That's why I used in vector store one provided from 
+```python
+import os
+
+from langchain_chroma import Chroma
+from langchain_community.embeddings import SentenceTransformerEmbeddings
+from app.settings import SettingsLocal
+from components.interfaces import Component
+
+
+class VectorStore(Component):
+    def __init__(self):
+        super().__init__()
+        self.config = {
+            "posts_directory": os.path.join(SettingsLocal.DATA_DIR, "posts"),
+            "embedder": SentenceTransformerEmbeddings(
+                model_name=SettingsLocal.TRANSFORMERS_MODEL,
+            )
+        }
+```
+And you can implement `langchain_core.embeddings.embeddings.Embeddings` interface and add your own embedder to components.
+You can easily add it to vector store via config dict.
 
 ### Retrievers

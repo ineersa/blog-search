@@ -28,7 +28,7 @@ class PostDocumentsLoader(Loader):
                 docs = self.sentence_splitter.split(post_document.short_description)
                 for doc in docs:
                     doc.metadata["source"] = "short_description"
-                    doc.metadata["id"] = "doc_id"
+                    doc.metadata["id"] = doc_id
                     doc.metadata["type"] = "text"
                     langchain_documents.append(doc)
 
@@ -39,6 +39,8 @@ class PostDocumentsLoader(Loader):
                     sentences_docs = self.sentence_splitter.split(doc.page_content)
                     for sentence in sentences_docs:
                         sentence.metadata = doc.metadata
+                        sentence.metadata["source"] = "content"
+                        sentence.metadata["id"] = doc_id
                         langchain_documents.append(sentence)
                     # else:
                     #     langchain_documents.append(doc)
