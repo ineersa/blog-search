@@ -1,6 +1,4 @@
-from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_core.documents import Document as LangchainDocument
-
 from app.settings import SettingsLocal
 from components.interfaces import Retriever
 from components.vectorstore import VectorStore
@@ -22,6 +20,7 @@ class VectorStoreRetriever(Retriever):
             k=self.config["top_k"],
             score_threshold=self.config["score_threshold"],
         )
+
         documents = [doc for doc, score in documents_with_scores]
 
         return documents

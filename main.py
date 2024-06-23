@@ -3,9 +3,13 @@ import sys
 import datetime
 import uvicorn
 from fastapi import FastAPI
+from langchain_community.embeddings import SentenceTransformerEmbeddings
+
+from app.services.search import SearchService
 from app.settings import SettingsLocal
-from app.database import SessionLocal, AutoBase
 from app.logger import get_logger
+from components.vectorstore import VectorStore
+from collections import OrderedDict
 
 app = FastAPI(
     debug=SettingsLocal.APP_DEBUG,
@@ -13,6 +17,13 @@ app = FastAPI(
 )
 
 logger = get_logger(__name__)
+embedder = SentenceTransformerEmbeddings(
+    model_name=SettingsLocal.TRANSFORMERS_MODEL,
+    show_progress=False,
+)
+vector_store = VectorStore(embedder=embedder)
+posts_collection = vector_store.get_posts_collection()
+posts_search_service = SearchService(collection=posts_collection)
 
 @app.get("/")
 async def root():
@@ -23,9 +34,14 @@ async def root():
 
 
 @app.get("/search")
-async def say_hello(query: str):
+async def search(query: str):
     logger.info(f"Query is {query}")
-    return {"message": f"Hello {query}"}
+
+    ids = posts_search_service.search(query=query)
+    logger.info(f"Found {len(ids)} posts, ids {','.join(map(str, ids))}")
+    return OrderedDict([
+        ("ids", ids)
+    ])
 
 # just for development locally
 if __name__ == '__main__':
@@ -34,7 +50,7 @@ if __name__ == '__main__':
         host="127.0.0.1",
         port=3335,
         reload=True,
-        workers=None,
+        workers=1,
         root_path="",
         proxy_headers=True,
         log_level=SettingsLocal.LOG_LEVEL

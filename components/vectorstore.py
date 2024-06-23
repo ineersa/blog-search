@@ -8,19 +8,17 @@ from components.interfaces import Component
 
 
 class VectorStore(Component):
-    def __init__(self):
+    def __init__(self, embedder: SentenceTransformerEmbeddings):
         super().__init__()
         self.config = {
             "posts_directory": os.path.join(SettingsLocal.DATA_DIR, "posts"),
-            "embedder": SentenceTransformerEmbeddings(
-                model_name=SettingsLocal.TRANSFORMERS_MODEL,
-            )
         }
+        self.embedder = embedder
 
     def get_posts_collection(self) -> Chroma:
         return Chroma(
             collection_name="posts",
-            embedding_function=self.config["embedder"],
+            embedding_function=self.embedder,
             client_settings=ChromaSettings(
                 anonymized_telemetry=False,
                 is_persistent=True,
