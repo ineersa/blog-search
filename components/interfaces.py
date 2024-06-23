@@ -43,3 +43,11 @@ class Loader(Component):
 
     def load(self) -> list[LangchainDocument]:
         raise NotImplementedError("split method must be implemented by a subclass.")
+
+class Retriever(Component):
+
+    def __init__(self):
+        super().__init__()
+
+    def retrieve(self, query: str) -> list[LangchainDocument]:
+        raise NotImplementedError("retriever method must be implemented by a subclass.")

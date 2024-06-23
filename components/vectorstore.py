@@ -1,6 +1,7 @@
 import os
 
 from langchain_chroma import Chroma
+from chromadb.config import Settings as ChromaSettings
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 from app.settings import SettingsLocal
 from components.interfaces import Component
@@ -20,5 +21,9 @@ class VectorStore(Component):
         return Chroma(
             collection_name="posts",
             embedding_function=self.config["embedder"],
-            persist_directory=self.config["posts_directory"],
+            client_settings=ChromaSettings(
+                anonymized_telemetry=False,
+                is_persistent=True,
+                persist_directory=self.config["posts_directory"]
+            )
         )

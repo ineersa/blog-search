@@ -52,3 +52,11 @@ And you can implement `langchain_core.embeddings.embeddings.Embeddings` interfac
 You can easily add it to vector store via config dict.
 
 ### Retrievers
+ - `VectorStoreRetriever` our dense retriever. Retrieves relevant documents from vectorstore. 
+
+
+### Generators
+If you want full scale RAG system this is required. 
+You will need some model for which you can feed your retrieved 
+the closest documents as a context and your query as question, 
+and generate response based on this.  
