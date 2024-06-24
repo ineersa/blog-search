@@ -17,13 +17,11 @@ def run():
         new_ids.add(doc.metadata["id"])
 
     #
-    vector_store = VectorStore()
-    vector_store.set_config({
-        "embedder": SentenceTransformerEmbeddings(
-                    model_name=SettingsLocal.TRANSFORMERS_MODEL,
-                    show_progress=True,
-                )
-    })
+    embedder = SentenceTransformerEmbeddings(
+        model_name=SettingsLocal.TRANSFORMERS_MODEL,
+        show_progress=True,
+    )
+    vector_store = VectorStore(embedder=embedder)
     collection: Chroma = vector_store.get_posts_collection()
 
     documents_to_delete = collection.get(where={"id": {"$in": list(new_ids)}})

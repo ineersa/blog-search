@@ -14,7 +14,7 @@ logger = get_logger("commands/4_retrieve")
 def run():
     embedder = SentenceTransformerEmbeddings(
         model_name=SettingsLocal.TRANSFORMERS_MODEL,
-        show_progress=False,
+        show_progress=True,
     )
     vector_store = VectorStore(embedder=embedder)
     collection: Chroma = vector_store.get_posts_collection()

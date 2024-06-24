@@ -5,7 +5,7 @@ Accept: application/json
 
 ###
 
-GET http://127.0.0.1:3335/search?query="Release of Tailwind Nextjs"
+GET http://127.0.0.1:3335/search?query="How to update PHP on a server"
 Accept: application/json
 
 ###
