@@ -12,14 +12,11 @@ logger = get_logger("commands/4_retrieve")
 
 
 def run():
-    #
-    vector_store = VectorStore()
-    vector_store.set_config({
-        "embedder": SentenceTransformerEmbeddings(
-                    model_name=SettingsLocal.TRANSFORMERS_MODEL,
-                    show_progress=True,
-                )
-    })
+    embedder = SentenceTransformerEmbeddings(
+        model_name=SettingsLocal.TRANSFORMERS_MODEL,
+        show_progress=False,
+    )
+    vector_store = VectorStore(embedder=embedder)
     collection: Chroma = vector_store.get_posts_collection()
     vector_retriever = VectorStoreRetriever(collection=collection)
     documents = vector_retriever.retrieve("PHP upgrade")
